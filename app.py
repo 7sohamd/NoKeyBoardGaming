@@ -2,9 +2,6 @@ import streamlit as st
 import cv2
 from cvzone.HandTrackingModule import HandDetector
 from cvzone.FaceMeshModule import FaceMeshDetector
-from pynput.keyboard import Controller
-
-keyboard = Controller()
 
 st.set_page_config(page_title="Face & Hand Controller", layout="centered")
 st.title("🧠 Face and Hand Controlled Keyboard System")
@@ -21,6 +18,9 @@ last_action = None
 two_fingers_detected = False
 mouth_open_detected = False
 
+def simulate_key_press(key):
+    print(f"Simulated key press: {key}")  # Replace with your logic
+
 def detect_movement(nose_x, nose_y, frame_width, frame_height):
     global last_action
     center_x, center_y = frame_width // 2, frame_height // 2
@@ -35,11 +35,9 @@ def detect_movement(nose_x, nose_y, frame_width, frame_height):
 
     if action and action != last_action:
         if action == 'left':
-            keyboard.press('a')
-            keyboard.release('a')
+            simulate_key_press('a')
         elif action == 'right':
-            keyboard.press('d')
-            keyboard.release('d')
+            simulate_key_press('d')
         last_action = action
     elif action is None:
         last_action = None
@@ -48,8 +46,7 @@ def detect_mouth_open(top_lip_y, bottom_lip_y):
     global mouth_open_detected
     if abs(top_lip_y - bottom_lip_y) > 10:
         if not mouth_open_detected:
-            keyboard.press('s')
-            keyboard.release('s')
+            simulate_key_press('s')
             mouth_open_detected = True
     else:
         mouth_open_detected = False
@@ -75,8 +72,7 @@ if run:
             fingers = hand_detector.fingersUp(hand)
             if fingers == [0, 1, 1, 0, 0]:  # Index and middle up
                 if not two_fingers_detected:
-                    keyboard.press('w')
-                    keyboard.release('w')
+                    simulate_key_press('w')
                     two_fingers_detected = True
             else:
                 two_fingers_detected = False
@@ -84,3 +80,10 @@ if run:
         FRAME_WINDOW.image(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
+
+# Requirements for the project
+# streamlit==1.33.0
+# opencv-python-headless==4.5.5.64
+# cvzone==1.5.6
+# mediapipe==0.10.5
+# numpy==1.24.4
