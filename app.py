@@ -52,7 +52,7 @@ def detect_mouth_open(top_lip_y, bottom_lip_y):
 
 if run:
     while True:
-        img_file = st.camera_input("Capture an image")
+        img_file = st.camera_input("Capture an image", key="camera_input")
         if img_file is None:
             st.warning("Waiting for webcam input...")
             continue
