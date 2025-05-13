@@ -81,9 +81,3 @@ if run:
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-# Requirements for the project
-# streamlit==1.33.0
-# opencv-python-headless==4.5.5.64
-# cvzone==1.5.6
-# mediapipe==0.10.5
-# numpy==1.24.4
