@@ -1,5 +1,6 @@
 import streamlit as st
 import cv2
+import numpy as np
 from cvzone.HandTrackingModule import HandDetector
 from cvzone.FaceMeshModule import FaceMeshDetector
 
@@ -8,8 +9,6 @@ st.title("🧠 Face and Hand Controlled Keyboard System")
 run = st.button("Start Detection")
 
 FRAME_WINDOW = st.image([])
-
-cap = cv2.VideoCapture(0)
 
 hand_detector = HandDetector(maxHands=1, detectionCon=0.7)
 face_detector = FaceMeshDetector(maxFaces=1)
@@ -53,7 +52,13 @@ def detect_mouth_open(top_lip_y, bottom_lip_y):
 
 if run:
     while True:
-        success, frame = cap.read()
+        img_file = st.camera_input("Capture an image")
+        if img_file is None:
+            st.warning("Waiting for webcam input...")
+            continue
+
+        # Convert the image to OpenCV format
+        frame = cv2.imdecode(np.frombuffer(img_file.read(), np.uint8), cv2.IMREAD_COLOR)
         frame = cv2.flip(frame, 1)
         frame_height, frame_width, _ = frame.shape
 
@@ -78,6 +83,11 @@ if run:
                 two_fingers_detected = False
 
         FRAME_WINDOW.image(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+
+# Requirements for the project
+# streamlit==1.33.0
+# opencv-python-headless==4.5.5.64
+# cvzone==1.5.6
+# mediapipe==0.10.5
+# numpy==1.24.4
 
