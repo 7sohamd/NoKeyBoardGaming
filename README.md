@@ -101,6 +101,3 @@ The script uses cvzone’s FaceMeshModule to detect facial landmarks and HandTra
 
 Soham Dey — [LinkedIn](https://www.linkedin.com/in/soham-dey-891332256) | [GitHub](https://github.com/7sohamd)
 
----
-
-Let me know if you'd like a badge-style README or want to deploy it as a demo app (e.g., with Streamlit or a GUI).
