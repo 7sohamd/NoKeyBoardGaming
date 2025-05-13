@@ -82,3 +82,5 @@ if run:
                 two_fingers_detected = False
 
         FRAME_WINDOW.image(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
